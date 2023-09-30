@@ -12,7 +12,7 @@ import time
 from langchain.chains.constitutional_ai.models import ConstitutionalPrinciple
 
 from src.utils.functions import *
-from utils.project_config import config
+from src.utils.project_config import config
 logging.basicConfig(level=logging.INFO)
 
 

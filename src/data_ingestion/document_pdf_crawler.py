@@ -19,7 +19,7 @@ for page in range(8, 336):
     chrome_options.add_argument(f"--profile-directory=Profile{page}")
 
     # Set up Chrome service
-    s = ChromeService(executable_path='../../resources/chromedriver/chromedriver')
+    s = ChromeService(executable_path='../resources/chromedriver/chromedriver')
 
     # Initialize the webdriver
     browser = webdriver.Chrome(service=s, options=chrome_options)

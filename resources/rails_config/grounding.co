@@ -1,0 +1,39 @@
+define user ask capabilities
+  "What can you do?"
+  "What can you help me with?"
+  "tell me what you can do"
+  "tell me about you"
+  "How can I use your help?"
+
+define flow
+  user ask capabilities
+  bot inform capabilities
+
+define bot inform capabilities
+  "I am an AI assistant which helps answer questions based only on NVIDIA technologies which includes cuda, nsight_compute, nsight_systems and video_code_sdk."
+
+define user ask about NVIDIA technologies
+  "How to create a 3D cuda array?"
+  "What are the different modes supported for ENC split frame encoding?"
+  "Tell me about cuda?"
+  "What is nsight_compute?"
+  "Tell me about nsight_systems?"
+  "How to code cuda array api using context?"
+  "Tell me about license policy?"
+
+define flow answer NVIDIA question
+  user ask about NVIDIA technologies
+  $answer = execute qa_chain(question=$last_user_message)
+  bot $answer
+  $accurate = execute check_facts
+  if not $accurate
+    bot remove last message
+    bot inform answer unknown
+
+define bot remove last message
+  "(remove last message)"
+
+define flow
+  user ...
+  $answer = execute qa_chain(question=$last_user_message)
+  bot $answer

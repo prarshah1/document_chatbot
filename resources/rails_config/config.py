@@ -11,7 +11,7 @@ from nemoguardrails.llm.providers import register_llm_provider
 import numpy as np
 from nemoguardrails import LLMRails
 from torch import cuda
-from utils.functions import *
+from src.utils.functions import *
 import faiss
 
 from nemoguardrails.embeddings.index import EmbeddingModel, EmbeddingsIndex, IndexItem

@@ -18,6 +18,6 @@ chrome_options.add_argument('--disable-dev-shm-usage')
 chrome_options.add_argument(f"--profile-directory=Profile{page}")
 
 # Set up Chrome service
-s = ChromeService(executable_path='chromedriver/chromedriver')
+s = ChromeService(executable_path='../../resources/chromedriver/chromedriver')
 browser = webdriver.Chrome(service=s, options=chrome_options)
 browser.quit()

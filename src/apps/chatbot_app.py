@@ -2,7 +2,7 @@ import sqlite3
 from io import StringIO
 from utils.project_config import config
 from pdfminer.layout import LTTextContainer
-from utils.functions import *
+from src.utils.functions import *
 __import__('pysqlite3')
 import sys
 

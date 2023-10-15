@@ -1,4 +1,3 @@
-new_pdfs
-pdfs
+src/resources/new_pdfs
 venv
 .env

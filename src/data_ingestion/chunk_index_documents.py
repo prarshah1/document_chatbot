@@ -5,7 +5,7 @@ from langchain import FAISS
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 from src.utils.functions import read_pdf_to_string, get_pdf_paths
-from utils.project_config import config
+from src.utils.project_config import config
 import nltk
 
 nltk.download('punkt')

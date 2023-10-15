@@ -11,7 +11,7 @@ from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from llama_cpp import llama_cpp
 
-from utils.project_config import config
+from src.utils.project_config import config
 import torch
 from langchain import HuggingFacePipeline, PromptTemplate
 from transformers import AutoTokenizer, TextStreamer, pipeline
@@ -64,11 +64,12 @@ def get_llama2_7B_chat_llm():
     return LlamaCpp(model_path=config["llama2_model_path"],
                     temperature=0.5,
                     n_ctx=2048,
-                    max_tokens=(4096*7),
+                    max_tokens=4096,
                     top_p=1,
                     n_gpu_layers=1,
                     f16_kv=True,
                     n_batch=512,
+                    n_gqa=8,
                     n_threads=128,
                     callback_manager=callback_manager,
                     verbose=True)

@@ -1,3 +1,6 @@
+define bot inform capabilities
+  "I am an AI assistant which helps answer questions based only on NVIDIA technologies."
+
 define user ask capabilities
   "What can you do?"
   "What can you help me with?"
@@ -9,20 +12,22 @@ define flow
   user ask capabilities
   bot inform capabilities
 
-define bot inform capabilities
-  "I am an AI assistant which helps answer questions based only on NVIDIA technologies which includes cuda, nsight_compute, nsight_systems and video_code_sdk."
+define user greet
+    "Hi"
+    "Hello"
+    "Wahts up?"
+    "How are you"
 
-define user ask about NVIDIA technologies
-  "How to create a 3D cuda array?"
-  "What are the different modes supported for ENC split frame encoding?"
-  "Tell me about cuda?"
-  "What is nsight_compute?"
-  "Tell me about nsight_systems?"
-  "How to code cuda array api using context?"
-  "Tell me about license policy?"
+ define bot greet
+    "Hello, how can I help you today?"
 
-define flow answer NVIDIA question
-  user ask about NVIDIA technologies
+define flow greet
+    user greet
+    bot greet
+    bot inform capabilities
+
+define flow
+  user ...
   $answer = execute qa_chain(question=$last_user_message)
   bot $answer
   $accurate = execute check_facts
@@ -33,7 +38,5 @@ define flow answer NVIDIA question
 define bot remove last message
   "(remove last message)"
 
-define flow
-  user ...
-  $answer = execute qa_chain(question=$last_user_message)
-  bot $answer
+define bot inform answer unknown
+    "I am unable to answer that."

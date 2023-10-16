@@ -1,6 +1,6 @@
 import sqlite3
 from io import StringIO
-from utils.project_config import config
+from src.utils.project_config import config
 from pdfminer.layout import LTTextContainer
 from src.utils.functions import *
 __import__('pysqlite3')
@@ -11,8 +11,6 @@ connection = sqlite3.connect('../cache.db', timeout=100)
 
 import streamlit as st
 import os
-
-
 from langchain.vectorstores import Chroma
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.chains import ConversationalRetrievalChain
@@ -65,9 +63,6 @@ def set_LLM(uploaded_file):
         st.session_state["current_filename"] = filename
         if filename not in LLMDATA:
             print("uploaded_file(name)>>>>>>>>>", filename)
-            # with open(filename) as f:
-            #     state_of_the_union = f.read()
-            # text_splitter = RecursiveCharacterTextSplitter(chunk_size=6000, chunk_overlap=1000,length_function = len)
             documents = create_documents(uploaded_file)
             embeddings = OpenAIEmbeddings()
             db = Chroma.from_documents(documents, embeddings)

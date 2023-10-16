@@ -6,7 +6,7 @@ from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from llama_cpp import llama_cpp
 
-from utils.project_config import config
+from src.utils.project_config import config
 
 # llm = llama_cpp.llama_load_model_from_file(
 #                    path_model="models/7B_chat/ggml-model-q4_0.bin".encode("utf-8"), params=llama_cpp.llama_context_default_params()

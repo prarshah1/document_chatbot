@@ -3,7 +3,6 @@ define user ask off topic
   "Can you recommend the best stocks to buy?"
   "Can you recommend a place to eat?"
   "Do you know any restaurants?"
-  "Can you tell me your name?"
   "What's your name?"
   "Can you paint?"
   "Can you tell me a joke?"
@@ -17,7 +16,7 @@ define flow
   bot explain cant off topic
 
 define bot explain cant off topic
-  "Sorry, I cannot comment on anything which is not relevant to the NVIDIA technologies, and the provided doccuments such as such as CUDA, NSight Compute, NSight Systems, and Video Codec SDK ."
+  "Sorry, I cannot comment on anything which is not relevant to the NVIDIA technologies."
 
 define flow
   user ask general question

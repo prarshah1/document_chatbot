@@ -7,7 +7,7 @@ import mlflow
 import time
 
 from src.utils.functions import *
-from utils.project_config import config
+from src.utils.project_config import config
 logging.basicConfig(level=logging.INFO)
 
 
@@ -16,7 +16,7 @@ embeddings = HuggingFaceInstructEmbeddings(
         model_name=config['EMBEDDING_MODEL_NAME'],
         model_kwargs={"device": "cpu"},
     )
-vector_store = FAISS.load_local(embeddings=embeddings, folder_path="/Users/prar_shah/study/PycharmProjects/nvidia_document_bot/resources/embeddings/Video_Codec_SDK")
+vector_store = FAISS.load_local(embeddings=embeddings, folder_path="src/resources/embeddings/Video_Codec_SDK")
 # vector_store = FAISS.load_local(embeddings=embeddings, folder_path=config['vector_store_path'] + "/cuda")
 
 # configure document retrieval
@@ -27,7 +27,7 @@ prompt_template = config['system_message_template']
 qa_prompt = PromptTemplate.from_template(prompt_template)
 memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
 
-rails = get_rails()
+rails = get_rails_from_path_config()
 qa_chain = ConversationalRetrievalChain.from_llm(llm=rails.llm,
                                                 retriever=vector_store.as_retriever(search_kwargs={"k": 5}),
                                                 memory=memory,
@@ -37,7 +37,7 @@ rails.register_action(qa_chain, name="qa_chain")
 question = "What are the different modes to split encoding in ENC?"
 docs = retriever.get_relevant_documents(question)
 output = rails.generate(
-        messages=[{"role": "user", "content": question, "context": ""}])
+        messages=[{"role": "user", "content": question}])
 print(output)
 # docs = retriever.get_relevant_documents(question)
 # for doc in docs:

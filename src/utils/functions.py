@@ -15,6 +15,10 @@ from src.utils.project_config import config
 import torch
 from langchain import HuggingFacePipeline, PromptTemplate
 from transformers import AutoTokenizer, TextStreamer, pipeline
+import asyncio
+import os
+
+os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"]="true"
 
 DEVICE = "cuda:0" if torch.cuda.is_available() else "cpu"
 
@@ -45,15 +49,23 @@ def read_pdf_to_string(paths, pdfs_start):
             print(f"Empty PDF: {doc_path}")
     return (pdf_to_str, doc_names)
 
-def get_rails():
+def get_rails_from_path_config():
+    try:
+        asyncio.get_event_loop()
+    except RuntimeError as ex:
+        if "There is no current event loop in thread" in str(ex):
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            return asyncio.get_event_loop()
     import nemoguardrails
-    rails_config = nemoguardrails.RailsConfig.from_path("resources/rails_config")
+
+    rails_config = nemoguardrails.RailsConfig.from_path("src/resources/rails_config")
     # colang_content=config["rails_colang_config"],
     # yaml_content=config["rails_yaml_config"])
     # rails_config.config_path = config["rails_config_path"]
-    llm=get_llama2_7B_chat_llm()
+    llm = get_llama2_7B_chat_llm()
     rails = nemoguardrails.LLMRails(rails_config, llm=llm)
-    rails.runtime.register_action_param("llm", llm)
+    rails.runtime.register_action_param("llm", rails.llm)
     return rails
 
 def get_llama2_7B_chat_llm():
@@ -64,7 +76,7 @@ def get_llama2_7B_chat_llm():
     return LlamaCpp(model_path=config["llama2_model_path"],
                     temperature=0.5,
                     n_ctx=2048,
-                    max_tokens=4096,
+                    max_tokens=(2048*5),
                     top_p=1,
                     n_gpu_layers=1,
                     f16_kv=True,
@@ -72,7 +84,7 @@ def get_llama2_7B_chat_llm():
                     n_gqa=8,
                     n_threads=128,
                     callback_manager=callback_manager,
-                    verbose=True)
+                    verbose=False)
 
 def load_db(_type):
     embeddings = HuggingFaceInstructEmbeddings(

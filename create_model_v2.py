@@ -32,7 +32,7 @@ prompt_template = config['system_message_template']
 qa_prompt = PromptTemplate.from_template(prompt_template)
 memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
 
-rails = get_rails()
+rails = get_rails_from_path_config()
 qa_chain = ConversationalRetrievalChain.from_llm(llm=rails.llm,
                                                 retriever=vector_store.as_retriever(search_kwargs={"k": 5}),
                                                 memory=memory,
